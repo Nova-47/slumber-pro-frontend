@@ -19,10 +19,11 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaClock } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Reminder() {
-  const bg = useColorModeValue("white", "black");
-  const color = useColorModeValue("black", "white");
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("black", "gray.300");
 
   const [reminderType, setReminderType] = useState("");
   const [userId, setUserId] = useState("");
@@ -30,7 +31,7 @@ export default function Reminder() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedTime, setSelectedTime] = useState(new Date());
-  const [isRepeat, setIsRepeat] = useState(false); // ✅ 반복 여부 (True/False)
+  const [isRepeat, setIsRepeat] = useState(false);
 
   const handleTimeSelect = (hour: number, minute: number) => {
     const newTime = new Date();
@@ -67,7 +68,16 @@ export default function Reminder() {
 
   return (
     <Container maxW="xl">
-      <Box bg={bg} color={color} minH="100vh" fontFamily="sans-serif" p={6}>
+      <Box
+        mt={7}
+        bg={bg}
+        color={color}
+        p={6}
+        border="1px solid"
+        borderColor="gray.300"
+        borderRadius="lg"
+        minH="auto" // ✅ 높이 자동 조정 (100vh 제거)
+      >
         <Box p={4} textAlign="center">
           <Text fontSize="2xl" fontWeight="bold">
             리마인더 작성
@@ -95,7 +105,7 @@ export default function Reminder() {
             <Input
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              placeholder="ID를 입력해 주세요"
+              placeholder="ID를 입력해 주세요 (로그인 타입과 같을 경우 비워둬도 OK)"
               size="lg"
             />
           </FormControl>
@@ -195,6 +205,9 @@ export default function Reminder() {
           <Button colorScheme="blue" size="lg" onClick={handleSubmit}>
             리마인더 예약
           </Button>
+          <Link to={"./Reconfirm"}>
+            <Button>Test</Button>
+          </Link>
         </VStack>
       </Box>
     </Container>

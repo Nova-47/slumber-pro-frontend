@@ -7,17 +7,17 @@ import {
   HStack,
   VStack,
   useColorModeValue,
+  useColorMode,
 } from "@chakra-ui/react";
 
 export default function Home() {
-  const bg = useColorModeValue("white", "black");
-  const color = useColorModeValue("black", "white");
   const cardBg = useColorModeValue("blue.100", "cyan.200");
   const cardTextColor = useColorModeValue("black", "black");
   const secondaryCardBg = useColorModeValue("gray.400", "#4a4a6a");
+  const { colorMode } = useColorMode();
 
   return (
-    <Box bg={bg} color={color} minH="100vh" fontFamily="sans-serif">
+    <Box minH="100vh" fontFamily="sans-serif">
       {/* 메인 콘텐츠 섹션 */}
       <Flex
         direction={{ base: "column", md: "row" }}
@@ -29,13 +29,18 @@ export default function Home() {
         <Box
           flex="4.2"
           position="relative"
-          bg={useColorModeValue("gray.200", "gray.800")}
+          bg={useColorModeValue("gray.200", "gray.200")}
           borderRadius="md"
+          borderColor={"gray.800"}
           overflow="hidden"
           mx={{ base: 0, md: "5vw" }} // 상대 단위로 여백 조정
         >
           <Image
-            src="https://i.ibb.co/1t6ZbLKr/5291a351-b966-461e-a453-1cbd7d12c085-1.jpg/800x400"
+            src={
+              colorMode === "light"
+                ? "https://i.ibb.co/1t6ZbLKr/5291a351-b966-461e-a453-1cbd7d12c085-1.jpg/800x400"
+                : "https://i.ibb.co/JwxKGtYD/photo-2025-03-17-21-08-37.jpg/800x400"
+            }
             alt="Slumber Event"
             objectFit="cover"
             w="100%"

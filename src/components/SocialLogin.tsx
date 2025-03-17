@@ -10,7 +10,14 @@ import {
 import { FaComment, FaGithub } from "react-icons/fa";
 
 const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
-
+const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
+const kakaoParams = {
+  client_id: KAKAO_CLIENT_ID,
+  redirect_uri: "http://127.0.0.1:5173/social/kakao",
+  response_type: "code",
+};
+const params = new URLSearchParams(kakaoParams).toString();
+console.log(params);
 export default function SocialLogin() {
   return (
     <Box mb={4}>
@@ -38,7 +45,13 @@ export default function SocialLogin() {
         >
           Continue with Github
         </Button>
-        <Button leftIcon={<FaComment />} w={"100%"} colorScheme="yellow">
+        <Button
+          as="a"
+          href={`https://kauth.kakao.com/oauth/authorize?${params}`}
+          leftIcon={<FaComment />}
+          w={"100%"}
+          colorScheme="yellow"
+        >
           Continue with Kakao
         </Button>
       </VStack>

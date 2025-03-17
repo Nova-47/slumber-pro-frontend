@@ -1,9 +1,19 @@
-import { Button, Heading, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  VStack,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <VStack bg="gray.100" justifyContent={"center"} minH="100vh">
+    <VStack
+      bg={useColorModeValue("gray.100", "gray.700")}
+      justifyContent={"center"}
+      minH="100vh"
+    >
       <Heading>Page not found.</Heading>
       <Text>It seems that you're lost.</Text>
       <Link to="/">

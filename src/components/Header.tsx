@@ -39,7 +39,7 @@ export default function Header() {
     onOpen: onSignUpOpen,
   } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  const cardTextColor = useColorModeValue("black", "white");
+  const cardTextColor = useColorModeValue("black", "gray.300");
   const toast = useToast();
   const queryClient = useQueryClient();
   const onLogOut = async () => {
@@ -95,7 +95,8 @@ export default function Header() {
 
       {/* 메뉴 항목들 중앙 유지 */}
       <Box
-        display={{ base: "none", md: "flex" }}
+        visibility={{ base: "hidden", md: "visible" }}
+        display={"flex"}
         justifyContent="center"
         color={cardTextColor}
       >
@@ -103,7 +104,16 @@ export default function Header() {
           <Text>*</Text>
           <Text>소개</Text>
           <Divider orientation="vertical" height="20px" />
-          <ServiceMenu />
+          <Box
+            visibility="visible"
+            _hover={{
+              bg: useColorModeValue("gray.100", "gray.700"),
+              borderRadius: "md", // ✅ 둥근 모서리
+              transition: "background 0.2s ease-in-out", // ✅ 부드러운 효과
+            }}
+          >
+            <ServiceMenu />
+          </Box>
           <Divider orientation="vertical" height="20px" />
           <Text>소식</Text>
           <Text>*</Text>

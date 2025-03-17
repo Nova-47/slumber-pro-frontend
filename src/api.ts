@@ -29,3 +29,25 @@ export const githubLogIn = (code: string) =>
       }
     )
     .then((response) => response.status);
+
+export const kakaoLogin = (code: string) =>
+  instance
+    .post(
+      `/users/kakao`,
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.status);
+
+export const kakaoTest = () =>
+  instance
+    .post(`/users/testkakao`, null, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.status);

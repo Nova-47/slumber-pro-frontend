@@ -5,6 +5,8 @@ import Home from "./routes/Home";
 import NotFound from "./routes/NotFound";
 import Reminder from "./routes/Services";
 import GithubConfirm from "./routes/GithubConfirm";
+import KakaoConfirm from "./routes/KakaoConfirm";
+import ReminderConfirm from "./routes/ReminderConfirm";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +23,19 @@ const router = createBrowserRouter([
         element: <Reminder />,
       },
       {
+        path: "service/reminder/Reconfirm",
+        element: <ReminderConfirm />,
+      },
+      {
         path: "social",
         children: [
           {
             path: "github",
             element: <GithubConfirm />,
+          },
+          {
+            path: "kakao",
+            element: <KakaoConfirm />,
           },
         ],
       },
