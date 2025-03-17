@@ -9,6 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { FaComment, FaGithub } from "react-icons/fa";
 
+const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
+
 export default function SocialLogin() {
   return (
     <Box mb={4}>
@@ -26,6 +28,8 @@ export default function SocialLogin() {
       </HStack>
       <VStack>
         <Button
+          as={"a"}
+          href={`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=read:user,user:email`}
           leftIcon={<FaGithub />}
           w={"100%"}
           bg={useColorModeValue("gray.700", "blue.700")}
