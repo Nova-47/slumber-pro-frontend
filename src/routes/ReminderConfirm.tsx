@@ -17,9 +17,20 @@ export default function ReminderConfirm() {
       });
       navigate("/");
     }
+    if (status === 400) {
+      toast({
+        status: "error",
+        title: "실패!",
+        description: "다시 점검해봐야 할 것 같아요!",
+        position: "bottom-right",
+      });
+      navigate("/");
+    }
   };
   useEffect(() => {
-    confirmReminder();
+    (async () => {
+      confirmReminder();
+    })();
   }, []);
   return (
     <VStack justifyContent={"center"} mt={40}>

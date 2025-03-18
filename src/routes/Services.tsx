@@ -16,14 +16,17 @@ import {
   MenuItem,
   HStack,
   Switch,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { reminderSubmit } from "../api";
 
 export default function Reminder() {
   const bg = useColorModeValue("white", "gray.800");
   const color = useColorModeValue("black", "gray.300");
+  const toast = useToast();
 
   const [reminderType, setReminderType] = useState("");
   const [userId, setUserId] = useState("");
@@ -33,36 +36,74 @@ export default function Reminder() {
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [isRepeat, setIsRepeat] = useState(false);
 
-  const handleTimeSelect = (hour: number, minute: number) => {
-    const newTime = new Date();
+  const handleDateChange = (e: any) => {
+    const newDate = new Date(e.target.value);
+    const updatedTime = new Date(selectedTime);
+    updatedTime.setFullYear(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      newDate.getDate()
+    );
+    setSelectedTime(updatedTime);
+  };
+
+  const handleTimeSelect = (hour: any, minute: any) => {
+    const newTime = new Date(selectedTime);
     newTime.setHours(hour);
     newTime.setMinutes(minute);
+    newTime.setSeconds(0);
     setSelectedTime(newTime);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
-    console.log("📌 리마인더 예약됨:", {
-      reminderType,
-      userId,
+
+    const requestData = {
+      kind: reminderType,
+      method_id: userId || null,
       location,
       title,
-      content,
-      reminderTime: selectedTime.toLocaleTimeString(),
-    });
+      payload: content,
+      reminder_time: selectedTime.toISOString(),
+      repeat: isRepeat,
+    };
 
-    // 입력 필드 초기화
-    setReminderType("");
-    setUserId("");
-    setLocation("");
-    setTitle("");
-    setContent("");
+    console.log("📌 리마인더 예약 요청 데이터:", requestData);
+
+    try {
+      const response = await reminderSubmit(requestData);
+      console.log("✅ 서버 응답:", response);
+
+      toast({
+        status: "success",
+        title: "리마인더 예약 성공!",
+        description: "설정한 시간에 알림이 전송됩니다.",
+        position: "bottom-right",
+        duration: 2000,
+      });
+
+      setReminderType("");
+      setUserId("");
+      setLocation("");
+      setTitle("");
+      setContent("");
+      setSelectedTime(new Date());
+      setIsRepeat(false);
+    } catch (error) {
+      console.error("❌ API 요청 실패:", error);
+      toast({
+        status: "error",
+        title: "리마인더 예약 실패",
+        description: "잠시 후 다시 시도해주세요.",
+        position: "bottom-right",
+        duration: 2000,
+      });
+    }
   };
 
-  // 시간 및 분 리스트 생성
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutes = [0, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
@@ -76,7 +117,7 @@ export default function Reminder() {
         border="1px solid"
         borderColor="gray.300"
         borderRadius="lg"
-        minH="auto" // ✅ 높이 자동 조정 (100vh 제거)
+        minH="auto"
       >
         <Box p={4} textAlign="center">
           <Text fontSize="2xl" fontWeight="bold">
@@ -93,7 +134,7 @@ export default function Reminder() {
               placeholder="타입을 선택해 주세요"
               size="lg"
             >
-              <option value="kakaotalk">Kakaotalk</option>
+              <option value="kakao_talk">Kakaotalk</option>
               <option value="whatsapp">Whatsapp</option>
               <option value="sms">SMS</option>
               <option value="email">Email</option>
@@ -141,7 +182,16 @@ export default function Reminder() {
             />
           </FormControl>
 
-          {/* 리마인더 도착 시간 선택 */}
+          <FormControl>
+            <FormLabel>리마인더 날짜</FormLabel>
+            <Input
+              type="date"
+              value={selectedTime.toISOString().split("T")[0]}
+              onChange={handleDateChange}
+              size="lg"
+            />
+          </FormControl>
+
           <FormControl>
             <FormLabel>리마인더 도착 시간</FormLabel>
             <Box display="flex" gap={2}>
@@ -188,7 +238,6 @@ export default function Reminder() {
             </Box>
           </FormControl>
 
-          {/*  반복 여부 (Switch) */}
           <FormControl>
             <FormLabel>반복 설정</FormLabel>
             <HStack>
