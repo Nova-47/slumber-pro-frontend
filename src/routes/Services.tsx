@@ -146,7 +146,7 @@ export default function Reminder() {
             <Input
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              placeholder="ID를 입력해 주세요 (로그인 타입과 같을 경우 비워둬도 OK)"
+              placeholder="리마인더 메소드의 ID를 입력해 주세요, 예) Kakao Email"
               size="lg"
             />
           </FormControl>

@@ -102,7 +102,7 @@ export const usernameSignUp = ({
     )
     .then((response) => response.data);
 
-export const reminderSubmit = ({
+/* export const reminderSubmit = ({
   kind,
   method_id,
   location,
@@ -114,6 +114,27 @@ export const reminderSubmit = ({
   instance
     .post(
       `/reminders/`,
+      { kind, method_id, location, title, payload, reminder_time, repeat },
+      {
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data); */
+
+export const reminderSubmit = ({
+  kind,
+  method_id,
+  location,
+  title,
+  payload,
+  reminder_time,
+  repeat,
+}: any) =>
+  instance
+    .post(
+      `/reminders/base`,
       { kind, method_id, location, title, payload, reminder_time, repeat },
       {
         headers: {
