@@ -152,6 +152,20 @@ export default function Header() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem
+                    color={colorMode === "light" ? "gray.700" : "gray.100"}
+                    as={Link}
+                    to={"/profile"}
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    color={colorMode === "light" ? "gray.700" : "gray.100"}
+                    as={Link}
+                    to={"/profile/my-reminders"}
+                  >
+                    My reminders
+                  </MenuItem>
+                  <MenuItem
                     onClick={onLogOut}
                     color={colorMode === "light" ? "gray.700" : "gray.100"}
                   >

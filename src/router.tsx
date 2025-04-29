@@ -6,7 +6,10 @@ import NotFound from "./routes/NotFound";
 import Reminder from "./routes/Services";
 import GithubConfirm from "./routes/GithubConfirm";
 import KakaoConfirm from "./routes/KakaoConfirm";
-import ReminderConfirm from "./routes/ReminderConfirm";
+import Profile from "./routes/Profile";
+import MyReminders from "./routes/MyReminders";
+import ReminderDetail from "./routes/ReminderDetail";
+import ReminderEdit from "./routes/ReminderEdit";
 
 const router = createBrowserRouter([
   {
@@ -19,12 +22,24 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "service/reminder",
-        element: <Reminder />,
+        path: "profile",
+        element: <Profile />,
       },
       {
-        path: "service/reminder/Reconfirm",
-        element: <ReminderConfirm />,
+        path: "profile/my-reminders",
+        element: <MyReminders />,
+      },
+      {
+        path: "profile/my-reminders/:id",
+        element: <ReminderDetail />,
+      },
+      {
+        path: "profile/my-reminders/:id/edit",
+        element: <ReminderEdit />,
+      },
+      {
+        path: "service/reminder",
+        element: <Reminder />,
       },
       {
         path: "social",

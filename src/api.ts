@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/",
+  baseURL: "https://api.circadias.xyz/api/v1/",
   withCredentials: true,
 });
 
@@ -63,7 +63,10 @@ export interface IusernameLoginError {
   error: string;
 }
 
-export const usernameLogin = ({ username, password }: any) =>
+export const usernameLogin = ({
+  username,
+  password,
+}: IUsernameLoginVariables) =>
   instance
     .post(
       `/users/log-in`,
@@ -102,44 +105,77 @@ export const usernameSignUp = ({
     )
     .then((response) => response.data);
 
-/* export const reminderSubmit = ({
+export const reminderSubmit = ({
   kind,
-  method_id,
   location,
   title,
   payload,
   reminder_time,
   repeat,
-}: any) =>
+}: {
+  kind: string;
+
+  location: string;
+  title: string;
+  payload: string;
+  reminder_time: number;
+  repeat: boolean;
+}) =>
   instance
     .post(
       `/reminders/`,
-      { kind, method_id, location, title, payload, reminder_time, repeat },
+      { kind, location, title, payload, reminder_time, repeat },
       {
         headers: {
           "X-CSRFToken": Cookies.get("csrftoken") || "",
         },
       }
     )
-    .then((response) => response.data); */
+    .then((response) => response.data);
 
-export const reminderSubmit = ({
-  kind,
-  method_id,
-  location,
-  title,
-  payload,
-  reminder_time,
-  repeat,
-}: any) =>
+export const deleteReminder = (pk: number) =>
   instance
-    .post(
-      `/reminders/base`,
-      { kind, method_id, location, title, payload, reminder_time, repeat },
-      {
-        headers: {
-          "X-CSRFToken": Cookies.get("csrftoken") || "",
-        },
-      }
-    )
+    .delete(`/reminders/${pk}`, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+
+export const getReminders = () =>
+  instance.get(`/reminders`).then((response) => response.data);
+
+export const getReminder = (pk: number) =>
+  instance
+    .get(`/reminders/${pk}`, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+
+export const updateReminder = (
+  pk: number,
+  data: Partial<{
+    title: string;
+    payload: string;
+    kind: string;
+    repeat: boolean;
+  }>
+) =>
+  instance
+    .put(`/reminders/${pk}`, data, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+
+export const updateMe = (data: { name: string; email: string }) =>
+  instance
+    .put(`/users/me/`, data, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
     .then((response) => response.data);

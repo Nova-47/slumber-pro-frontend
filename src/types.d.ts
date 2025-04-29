@@ -10,3 +10,23 @@ export interface IUser {
   language: string;
   currency: string;
 }
+
+export interface IPrivateUser {
+  name: string;
+  avatar: string;
+  gender: string;
+  language: string;
+  currency: string;
+}
+
+export const getMe = () =>
+  instance.get(`/users/me`).then((response) => response.data);
+
+export const updateMe = (data: Partial<IPrivateUser>) =>
+  instance
+    .put(`/users/me`, data, {
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);

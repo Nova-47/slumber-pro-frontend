@@ -13,11 +13,10 @@ const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
 const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
 const kakaoParams = {
   client_id: KAKAO_CLIENT_ID,
-  redirect_uri: "http://127.0.0.1:5173/social/kakao",
+  redirect_uri: "https://circadias.xyz/social/kakao",
   response_type: "code",
 };
 const params = new URLSearchParams(kakaoParams).toString();
-console.log(params);
 export default function SocialLogin() {
   return (
     <Box mb={4}>
